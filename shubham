@@ -1,0 +1,39 @@
+router
+  .route('/getCountryById/:id')
+  .get(validate(serviceValidation.getCountrybyId), serviceController.getCountrybyId)
+  
+  
+  
+  
+  
+  validation
+  
+  
+  const getCountrybyId = {
+  params: Joi.object().keys({
+    id: Joi.string().required(objectId)
+  })
+}
+
+
+
+controller
+const getCountrybyId = catchAsync(async (req, res) => {
+    const result = await adminServices.getCountrybyId(req.params.id)
+    console.log(result)
+    res.send({ status: 200, message:ApiResponseMessage.getCountrybyId,data: result });
+})
+
+
+
+
+service
+const getCountrybyId = async (id) => {
+  const result = await Service.find({ country: id })
+  if (result.length == 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Data not found");
+  }
+  return result
+}
+
+
